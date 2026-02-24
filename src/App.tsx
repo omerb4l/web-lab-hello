@@ -1,17 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
   return (
-    <div>
-      <h1>Web Tasarimi ve Programlama</h1>
-      <h2>LAB-1</h2>
-      <p>Ad Soyad: [Ömer Bal]</p>
-      <p>Ogrenci No: [230541108]</p>
-      <p>Hobilerim: [Oyun oynamak]</p>
-    </div>
+    <>
+      <header>
+        <nav>
+          <ul>
+            <li><a href="#hakkimda">Hakkimda</a></li>
+            <li><a href="#projeler">Projeler</a></li>
+            <li><a href="#iletisim">Iletisim</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <section id="hakkimda">
+          <h2>Hakkimda</h2>
+          {/* icerik buraya */}
+        </section>
+
+        <section id="projeler">
+          <h2>Projelerim</h2>
+          {/* icerik buraya */}
+        </section>
+
+        <section id="iletisim">
+          <h2>Iletisim</h2>
+          {/* form buraya */}
+        </section>
+      </main>
+
+      <footer>
+        <p>&copy; 2025 Ömer Bal. Tüm hakları saklıdır.</p>
+      </footer>
+    </>
   )
 }
 
