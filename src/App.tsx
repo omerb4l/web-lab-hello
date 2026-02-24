@@ -41,7 +41,42 @@ function App() {
 
         <section id="iletisim">
           <h2>İletişim</h2>
-          {/* form buraya */}
+          <form action="#" method="POST" noValidate>
+            <fieldset>
+              <legend>İletişim Formu</legend>
+
+              <div className="form-group">
+                <label htmlFor="name">Ad Soyad:</label>
+                <input type="text" id="name" name="name" required minLength={2} aria-describedby="name-error" />
+                <small id="name-error" className="error-msg" role="alert"></small>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email">E-posta:</label>
+                <input type="email" id="email" name="email" required aria-describedby="email-error" />
+                <small id="email-error" className="error-msg" role="alert"></small>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="subject">Konu:</label>
+                <select id="subject" name="subject" required aria-describedby="subject-error">
+                  <option value="">-- Seçiniz --</option>
+                  <option value="is">İş Teklifi</option>
+                  <option value="soru">Soru</option>
+                  <option value="oneri">Öneri</option>
+                </select>
+                <small id="subject-error" className="error-msg" role="alert"></small>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="message">Mesajınız:</label>
+                <textarea id="message" name="message" rows={5} required minLength={10} aria-describedby="message-error"></textarea>
+                <small id="message-error" className="error-msg" role="alert"></small>
+              </div>
+
+              <button type="submit">Gönder</button>
+            </fieldset>
+          </form>
         </section>
       </main>
 
