@@ -1,4 +1,4 @@
-# Web Tasarımı ve Programlama LAB-1 & LAB-2
+# Web Tasarımı ve Programlama
 
 ## Hakkında
 Bu proje, Web Tasarımı ve Programlama dersi kapsamında Vite + React + TypeScript kullanılarak oluşturulmuştur.
