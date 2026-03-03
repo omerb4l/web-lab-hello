@@ -5,7 +5,7 @@ function App() {
     <>
       <a href="#main-content" className="skip-link">Ana içeriğe atla</a>
       <header>
-        <h1>Ömer Bal - Kişisel Portföy</h1>
+        <h1 className="site-title">Ömer Bal - Kişisel Portföy</h1>
         <nav aria-label="Ana navigasyon">
           <ul>
             <li><a href="#hakkimda">Hakkimda</a></li>
@@ -18,25 +18,59 @@ function App() {
       <main id="main-content">
         <section id="hakkimda">
           <h2>Hakkımda</h2>
-          <figure>
-            <img src="https://via.placeholder.com/150" alt="Ömer Bal'ın vesikalık fotoğrafı" />
-            <figcaption>Ömer Bal</figcaption>
-          </figure>
-          <p>Merhaba, ben Ömer Bal. Front-end geliştirme konusunda kendimi geliştiriyorum.</p>
+          <div className="about-content">
+            <figure>
+              <img src="https://via.placeholder.com/150" alt="Ömer Bal'ın vesikalık fotoğrafı" />
+              <figcaption>Ömer Bal</figcaption>
+            </figure>
+            <div>
+              <p>Merhaba, ben Ömer Bal. Front-end geliştirme konusunda kendimi geliştiriyorum.</p>
+              <ul className="skill-tags" role="list" aria-label="Beceri etiketleri">
+                <li>HTML5</li>
+                <li>CSS3</li>
+                <li>JavaScript</li>
+                <li>React</li>
+                <li>TypeScript</li>
+                <li>Git</li>
+              </ul>
+            </div>
+          </div>
         </section>
 
         <section id="projeler">
           <h2>Projelerim</h2>
-          <article>
-            <h3>1. E-Ticaret Sitesi</h3>
-            <img src="https://via.placeholder.com/300x150" alt="E-ticaret sitesi anasayfa ekran görüntüsü" />
-            <p>React ve TypeScript ile geliştirilmiş modern e-ticaret arayüzü.</p>
-          </article>
-          <article>
-            <h3>2. Portföy Sayfası</h3>
-            <img src="https://via.placeholder.com/300x150" alt="Kişisel portföy sayfası ekran görüntüsü" />
-            <p>Semantik HTML ve erişilebilirlik standartlarına uygun kişisel web sitesi.</p>
-          </article>
+          <div className="project-grid">
+            <article className="project-card">
+              <img src="https://via.placeholder.com/300x200" alt="E-ticaret sitesi anasayfa ekran görüntüsü" />
+              <h3>E-Ticaret Sitesi</h3>
+              <p>React ve TypeScript ile geliştirilmiş modern e-ticaret arayüzü.</p>
+              <ul className="skill-tags">
+                <li>React</li>
+                <li>Node.js</li>
+                <li>MongoDB</li>
+              </ul>
+            </article>
+
+            <article className="project-card">
+              <img src="https://via.placeholder.com/300x200" alt="Kişisel portföy sayfası ekran görüntüsü" />
+              <h3>Portföy Sayfası</h3>
+              <p>Semantik HTML ve erişilebilirlik standartlarına uygun kişisel web sitesi.</p>
+              <ul className="skill-tags">
+                <li>HTML5</li>
+                <li>CSS3</li>
+              </ul>
+            </article>
+
+            <article className="project-card">
+              <img src="https://via.placeholder.com/300x200" alt="Hava durumu uygulaması arayüzü" />
+              <h3>Hava Durumu</h3>
+              <p>OpenWeather API ile anlık hava durumu bilgisi.</p>
+              <ul className="skill-tags">
+                <li>JavaScript</li>
+                <li>API</li>
+              </ul>
+            </article>
+          </div>
         </section>
 
         <section id="iletisim">
