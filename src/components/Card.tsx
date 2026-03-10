@@ -1,3 +1,14 @@
+import React from 'react';
+
+interface CardProps {
+    title?: string;
+    children: React.ReactNode;
+    image?: string;
+    imageAlt?: string;
+    footer?: React.ReactNode;
+    variant?: "elevated" | "outlined" | "filled";
+}
+
 export default function Card({
     title,
     children,
@@ -5,7 +16,7 @@ export default function Card({
     imageAlt,
     footer,
     variant = "elevated",
-}) {
+}: CardProps) {
     const variants = {
         elevated: `bg-white dark:bg-gray-800 shadow-md hover:shadow-lg`,
         outlined: `bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700`,

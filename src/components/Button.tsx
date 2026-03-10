@@ -1,9 +1,16 @@
+import React from 'react';
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
+    size?: 'sm' | 'md' | 'lg';
+}
+
 export default function Button({
     children,
     variant = "primary",
     size = "md",
     ...props
-}) {
+}: ButtonProps) {
     const base = `inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2`;
 
     const variants = {

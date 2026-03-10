@@ -1,10 +1,20 @@
+import React from 'react';
+
+interface AlertProps {
+    children: React.ReactNode;
+    variant?: "info" | "success" | "warning" | "error";
+    title?: string;
+    dismissible?: boolean;
+    onDismiss?: () => void;
+}
+
 export default function Alert({
     children,
     variant = "info",
     title,
     dismissible = false,
     onDismiss,
-}) {
+}: AlertProps) {
     const variants = {
         info: `bg-blue-50 border-blue-500 text-blue-800 dark:bg-blue-950 dark:text-blue-200`,
         success: `bg-green-50 border-green-500 text-green-800 dark:bg-green-950 dark:text-green-200`,
