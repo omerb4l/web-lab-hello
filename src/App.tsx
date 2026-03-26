@@ -1,12 +1,56 @@
-// Fix: Ensuring valid imports and types
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from './components/Button';
 import Input from './components/Input';
 import Card from './components/Card';
+import Alert from './components/Alert';
 import UIKit from './pages/UIKit';
+import type {
+  Project, Category, SortField, SortOrder
+} from './types/project';
+import { fetchProjects } from './services/projectService';
+import { applyFilters } from './utils/projectHelpers';
 
 function App() {
   const [showUIKit, setShowUIKit] = useState(false);
+
+  // --- STATE ---
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState<Category | "all">("all");
+  const [sortField, setSortField] = useState<SortField>("year");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // --- VERİ ÇEKME ---
+  useEffect(() => {
+    async function load() {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await fetchProjects();
+        setProjects(data);
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Bilinmeyen hata"
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, []);
+
+  // --- TÜRETİLMİŞ (DERIVED) VERİ ---
+  const filtered = applyFilters(
+    projects, search, category,
+    sortField, sortOrder
+  );
+
+  const categories: (Category | "all")[] =
+    ["all", "frontend", "fullstack", "backend"];
 
   if (showUIKit) {
     return (
@@ -95,18 +139,104 @@ function App() {
             <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white mb-10">
               Projelerim
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card variant="elevated" title="E-Ticaret Sitesi" image="https://via.placeholder.com/400x250" imageAlt="E-Ticaret anasayfa görünümü"
-                footer={<Button size="sm" variant="ghost">Detaylar</Button>}>
-                React ve Node.js ile tam kapsamlı uygulama.
-              </Card>
-              <Card variant="elevated" title="Portföy Sitesi" image="https://via.placeholder.com/400x250" imageAlt="Portföy görünümü">
-                Tailwind CSS v4 ve Component yaklaşımı ile geliştirildi.
-              </Card>
-              <Card variant="elevated" title="Hava Durumu" image="https://via.placeholder.com/400x250" imageAlt="Hava durumu uygulaması">
-                OpenWeather API ve React Hooks kullanımı.
-              </Card>
+
+            {/* HATA DURUMU */}
+            {error && (
+              <div className="mb-8">
+                <Alert variant="error" title="Hata">
+                  {error}
+                </Alert>
+              </div>
+            )}
+
+            {/* FİLTRELER */}
+            <div className="flex flex-col md:flex-row gap-4 mb-8">
+              <div className="flex-1">
+                <Input
+                  id="search"
+                  placeholder="Proje ara (başlık, teknoloji...)"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                />
+              </div>
+              <div className="flex gap-2 flex-wrap items-center">
+                {categories.map(cat => (
+                  <Button
+                    key={cat}
+                    variant={category === cat ? "primary" : "ghost"}
+                    size="sm"
+                    onClick={() => setCategory(cat)}
+                  >
+                    {cat === "all" ? "Tümü" : cat}
+                  </Button>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <select
+                  value={sortField}
+                  onChange={e => setSortField(e.target.value as SortField)}
+                  className="border rounded-lg px-3 py-2 dark:bg-gray-800 dark:text-white dark:border-gray-700 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow"
+                >
+                  <option value="year">Yıl</option>
+                  <option value="title">Başlık</option>
+                </select>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSortOrder(o => o === "asc" ? "desc" : "asc")}
+                >
+                  {sortOrder === "asc" ? "↑ A-Z" : "↓ Z-A"}
+                </Button>
+              </div>
             </div>
+
+            {/* YÜKLENİYOR */}
+            {loading && (
+              <div className="flex justify-center py-20">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+              </div>
+            )}
+
+            {/* PROJE LİSTESİ */}
+            {!loading && filtered.length === 0 && (
+              <p className="text-center text-gray-500 py-20">
+                Eşleşen proje bulunamadı.
+              </p>
+            )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filtered.map(project => (
+                <Card
+                  key={project.id}
+                  variant="elevated"
+                  title={project.title}
+                  image={project.image}
+                  imageAlt={`${project.title} ekran görüntüsü`}
+                  footer={
+                    <div className="flex justify-between items-center text-xs text-gray-500">
+                      <span>{project.year}</span>
+                      <span className="capitalize">{project.category}</span>
+                    </div>
+                  }
+                >
+                  <p className="text-sm mb-4">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {project.tech.map(t => (
+                      <span key={t} className="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-[10px] px-2 py-0.5 rounded-full font-medium">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </Card>
+              ))}
+            </div>
+
+            {/* SONUÇ SAYISI */}
+            <p className="text-sm text-gray-500 mt-8 text-center">
+              {filtered.length} / {projects.length} proje gösteriliyor
+            </p>
           </div>
         </section>
 
